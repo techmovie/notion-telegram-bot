@@ -56,7 +56,8 @@ Follow the steps below to use this feature.
     ```
     OPENAI_PROMPT = "your_openai_api_prompt"
     ```
-    In the aforementioned example, the prompt can be: Please provide the details of the English word I shared with you and follow this format: Word:\nPronunciation:(Phonetic symbol)\nDefinition:\nIn Chinese:\nExample Sentence:\nDate Learned:(Time when I send this prompt formatted as: YYYY-MM-DD)\nDifficulty:Medium\nRemembered:(Fixed to false)
+    In the aforementioned example, the prompt can be:
+    > Please provide the details of the English word I shared with you and follow this format: Word:\nPronunciation:(Phonetic symbol)\nDefinition:\nIn Chinese:\nExample Sentence:\nDate Learned:(Time when I send this prompt formatted as: YYYY-MM-DD)\nDifficulty:Medium\nRemembered:(Fixed to false)
     
 3. Run the bot:
 
