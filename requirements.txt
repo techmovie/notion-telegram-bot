@@ -1,2 +1,3 @@
 notion-client
 pyTelegramBotAPI
+openai

@@ -47,7 +47,7 @@ class NotionManager:
             new_page = {}
             for key, value in data.items():
                 if key in properties:
-                    new_page[key] = self.create_property_value(properties[key]['type'], value)
+                    new_page[key] = self.create_property_value(properties[key]['type'], value.strip())
                 elif(key != "database_id"):
                     unrecognized_properties.append(key)
             if unrecognized_properties:
