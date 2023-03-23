@@ -2,7 +2,10 @@ import logging
 import os
 
 def setup_logger():
-    log_file_path = os.path.join('logs', 'bot.log')
+    logs_directory = 'logs'
+    if not os.path.exists(logs_directory):
+        os.makedirs(logs_directory)
+    log_file_path = os.path.join(logs_directory, 'bot.log')
 
     logging.basicConfig(
         level=logging.INFO,
