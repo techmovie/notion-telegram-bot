@@ -94,7 +94,7 @@ Follow the steps below to use this feature.
 You can also run this project in a Docker container.
 
 ```
-docker run -e TELEGRAM_API_KEY=your_telegram_api_key -e NOTION_API_KEY=your_notion_api_key -e DATABASE_ID=your_database_id -e OPENAI_API_KEY=your_openai_api_key -e OPENAI_PROMPT=your_openai_prompt birdplane/notion-telegram-bot:latest
+docker run -e TELEGRAM_BOT_TOKEN=your_telegram_bot_token -e NOTION_API_KEY=your_notion_api_key -e DATABASE_ID=your_database_id -e OPENAI_API_KEY=your_openai_api_key -e OPENAI_PROMPT=your_openai_prompt birdplane/notion-telegram-bot:latest
 ```
 
 ## Contributing
