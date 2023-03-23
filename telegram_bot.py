@@ -1,12 +1,12 @@
 import telebot
-from config import TELEGRAM_API_KEY
+from config import TELEGRAM_BOT_TOKEN
 from message_handler import process_message, send_help
 from logger import logger
 from openai_manager import OpenAiManager
 
 class TelegramBot:
     def __init__(self):
-        self.bot = telebot.TeleBot(TELEGRAM_API_KEY)
+        self.bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
     def start(self):
         @self.bot.message_handler(commands=['start', 'help'])
