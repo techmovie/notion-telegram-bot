@@ -24,6 +24,7 @@ class TelegramBot:
 
             if not message_text:
                 self.bot.reply_to(message, "The message is empty. Please provide the required information.")
+                return
 
             try:
                 process_message(message_text)
