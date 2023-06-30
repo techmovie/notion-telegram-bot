@@ -21,6 +21,7 @@ class TelegramBot:
 
             if not message_text:
                 self.bot.reply_to(message, "The message is empty. Please provide the required information.")
+                return
 
             try:
                 process_message(message_text)
@@ -36,6 +37,7 @@ class TelegramBot:
 
             if not message_text:
                 self.bot.reply_to(message, "The message is empty. Please provide the required information.")
+                return
 
             try:
                 openai_manager = OpenAiManager(message_text)
@@ -45,4 +47,7 @@ class TelegramBot:
             except Exception as e:
                 logger.exception(f"Failed to update the Notion database,{e}")
                 self.bot.reply_to(message, f"An error occurred while updating the Notion database: {e}")
-        self.bot.polling()
+        try:
+            self.bot.infinity_polling()
+        except Exception as e:
+            logger.exception(f"Failed to start the bot,{e}")
