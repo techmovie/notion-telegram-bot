@@ -7,19 +7,31 @@ class NotionManager:
         self.notion = Client(auth=NOTION_API_KEY)
         self.default_database_id = NOTION_DATABASE_ID
 
-    def get_database_properties(self,database_id = None):
-        if database_id is None:
+    def get_database_first_column_name(self,database_id = None):
+        if not database_id:
             database_id = self.default_database_id
-        database = self.notion.databases.retrieve(database_id)
-        return database["properties"]
-
+        pages = self.notion.databases.query(
+        **{
+            'database_id': database_id,
+            'filter': {
+                'property': "Remembered",
+                'checkbox': {
+                    'equals': False
+                }
+            }
+        })
+        words = []
+        for page in pages['results']:
+            words.append(page['properties']['Word']['title'][0]['plain_text'])
+        return words
+    
     def _get_database_id(self, message):
         lines = message.split('\n')
         for line in lines:
             if line.startswith('database_id:'):
                 return line.split('database_id:')[1].strip()
         return self.default_database_id
-    
+
     def get_database_properties(self, database_id):
       database = self.notion.databases.retrieve(database_id)
       return database["properties"]
@@ -59,33 +71,39 @@ class NotionManager:
             raise ve
         except Exception as e:
              raise e
-       
+    def create_page(self, database_id = None, properties=None, children=None):
+        try:
+            if not database_id:
+                database_id = self.default_database_id
+            self.notion.pages.create(parent={"database_id": database_id}, properties=properties, children=children)
+        except Exception as e:
+            raise e
     def create_property_value(self, property_type, value):
       if property_type == "title":
-          return {"title": [{"text": {"content": value}}]}
+        return {"title": [{"text": {"content": value}}]}
       elif property_type == "rich_text":
-          return {"rich_text": [{"text": {"content": value}}]}
+        return {"rich_text": [{"text": {"content": value}}]}
       elif property_type == "number":
-          return {"number": float(value)}
+        return {"number": float(value)}
       elif property_type == "select":
-          return {"select": {"name": value}}
+        return {"select": {"name": value}}
       elif property_type == "multi_select":
-          return {"multi_select": [{"name": v.strip()} for v in value.split(',')]}
+        return {"multi_select": [{"name": v.strip()} for v in value.split(',')]}
       elif property_type == "date":
-          return {"date": {"start": value}}
+        return {"date": {"start": value}}
       elif property_type == "people":
-          # This example assumes that user input is a comma-separated list of user IDs.
-          return {"people": [{"id": user_id.strip()} for user_id in value.split(',')]}
+        # This example assumes that user input is a comma-separated list of user IDs.
+        return {"people": [{"id": user_id.strip()} for user_id in value.split(',')]}
       elif property_type == "files":
-          # This example assumes that user input is a comma-separated list of file URLs.
-          return {"files": [{"external": {"url": file_url.strip()}} for file_url in value.split(',')]}
+        # This example assumes that user input is a comma-separated list of file URLs.
+        return {"files": [{"external": {"url": file_url.strip()}} for file_url in value.split(',')]}
       elif property_type == "checkbox":
-          return {"checkbox": value.lower() == 'true'}
+        return {"checkbox": value.lower() == 'true'}
       elif property_type == "url":
-          return {"url": value}
+        return {"url": value}
       elif property_type == "email":
-          return {"email": value}
+        return {"email": value}
       elif property_type == "phone_number":
-          return {"phone_number": value}
+        return {"phone_number": value}
       else:
-          raise ValueError(f"Unsupported property type: {property_type}")
+        raise ValueError(f"Unsupported property type: {property_type}")
